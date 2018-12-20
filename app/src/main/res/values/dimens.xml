@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="cell_padding">0dp</dimen>
+    <dimen name="cell_margin">5dp</dimen>
+    <dimen name="cell_round_radius">5dp</dimen>
+    <dimen name="background_cell_padding">6dp</dimen>
+    <dimen name="background_cell_margin">4dp</dimen>
+    <dimen name="background_cell_round_radius">10dp</dimen>
+</resources>
