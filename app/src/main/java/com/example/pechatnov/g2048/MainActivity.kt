@@ -23,9 +23,10 @@ import android.view.*
 import android.content.res.Configuration
 import android.graphics.drawable.GradientDrawable
 import android.view.View;
+import android.widget.Toast
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ActivityWithSettings() {
 
 
     val CELL_COLORS = arrayOf(
@@ -151,11 +152,11 @@ class MainActivity : AppCompatActivity() {
         playGridLayout!!.invalidate()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//    }
 
     fun createCell(value: Int, parent: View? = null): View {
         val playGrid = this.playGrid!!
@@ -342,23 +343,18 @@ class MainActivity : AppCompatActivity() {
         finalAnimationsListener.onAnimationEnd(null)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        ejectAll()
-        playGridLayout!!.invalidate()
-
-//        mBoardState = (mBoardState + 1) % 2;
-//        if (mBoardState == 1) {
-//            recreateCells()
-//        } else {
-//            logicPlayGrid!!.swipe(1)
-//            recreateCells()
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        ejectAll()
+//        playGridLayout!!.invalidate()
+//
+//        return when (item.itemId) {
+//            R.id.action_settings -> {
+//                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+//                return true
+//            }
+//            else -> super.onOptionsItemSelected(item)
 //        }
-
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    }
 
     /**
      * A native method that is implemented by the 'native-lib' native library,

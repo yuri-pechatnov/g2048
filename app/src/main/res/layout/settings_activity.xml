@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              tools:context="com.example.pechatnov.g2048.SettingsActivity">
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+            android:text="@string/field_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView"
+            android:padding="5dp"/>
+    <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/fieldSize"/>
+    <TextView
+            android:text="@string/swipe_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView2"
+            android:padding="5dp"/>
+    <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/swipeSpeed"/>
+    <TextView
+            android:text="@string/new_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView3"
+            android:padding="5dp"/>
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RadioButton
+                android:text="@string/block_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/rbBlockCenter" android:layout_weight="1"/>
+        <RadioButton
+                android:text="@string/block_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/rbBlockRandom" android:layout_weight="1"/>
+    </RadioGroup>
+</LinearLayout>
