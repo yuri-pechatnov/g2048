@@ -1,3 +1,0 @@
-C:/Users/vruch/DATA/Github/g2048/app/.externalNativeBuild/cmake/release/x86/CMakeFiles/native-lib.dir
-C:/Users/vruch/DATA/Github/g2048/app/.externalNativeBuild/cmake/release/x86/CMakeFiles/edit_cache.dir
-C:/Users/vruch/DATA/Github/g2048/app/.externalNativeBuild/cmake/release/x86/CMakeFiles/rebuild_cache.dir
