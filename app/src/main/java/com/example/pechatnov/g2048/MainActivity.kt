@@ -28,7 +28,6 @@ import android.widget.Toast
 
 class MainActivity : ActivityWithSettings() {
 
-
     val CELL_COLORS = arrayOf(
         R.color.color_0,
         R.color.color_1,
@@ -45,9 +44,14 @@ class MainActivity : ActivityWithSettings() {
     )
 
 
-    val width: Int = 5
-    val height: Int = 5
-    val swipeDuration: Long = 200
+    var width: Int = 5
+    val widthSavedStateKey = "width"
+    var height: Int = 5
+    val heightSavedStateKey = "height"
+    var swipeDuration: Long = 200
+    val swipeDurationSavedStateKey = "swipeDuration"
+    var newBlockPolicy: SettingsKeeper.BlockStrategy = SettingsKeeper.BlockStrategy.CENTER
+    val newBlockPolicySavedStateKey = "newBlockPolicy"
 
     var playGrid: Array<Array<LinearLayout>>? = null
     val logicPlayGridSavedStateKey = "logicPlayGrid"
@@ -56,6 +60,25 @@ class MainActivity : ActivityWithSettings() {
     val previousStates = ParcelableMutableList<PlayGrid.State>()
     val cellMap = mutableMapOf<Int, Pair<Pair<Int, Int>, View>>()
 
+    fun setPlayGridSize(size: Int) {
+        if (size != this.width) {
+            recreate()
+        }
+        this.width = size
+        this.height = size
+        this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
+        this.previousStates.clear()
+    }
+
+    fun setBlockStrategy(policy: SettingsKeeper.BlockStrategy) {
+        if (policy != this.newBlockPolicy) {
+            this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
+            recreate()
+        }
+        this.newBlockPolicy = policy
+    }
+
+
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
         val logicPlayGrid = this.logicPlayGrid
@@ -63,6 +86,18 @@ class MainActivity : ActivityWithSettings() {
             state.putParcelable(logicPlayGridSavedStateKey, logicPlayGrid)
             state.putParcelable(previousStatesSavedStateKey, previousStates)
         }
+        state.putInt(widthSavedStateKey, width)
+        state.putInt(heightSavedStateKey, height)
+        state.putLong(swipeDurationSavedStateKey, swipeDuration)
+        state.putInt(newBlockPolicySavedStateKey, newBlockPolicy.value)
+    }
+
+    override fun onResume() {
+        val settings = SettingsKeeper(this)
+        setPlayGridSize(settings.fieldSize.toInt())
+        swipeDuration = settings.swipeSpeed.toLong()
+        setBlockStrategy(settings.blockStrategy)
+        super.onResume()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,9 +108,13 @@ class MainActivity : ActivityWithSettings() {
 
         if (savedInstanceState == null) {
             Log.e("anima", "Create anew")
-            this.logicPlayGrid = PlayGrid(width, height)
+            this.logicPlayGrid = PlayGrid(width, height, this.newBlockPolicy)
         } else {
             Log.e("anima", "Create load old :)")
+            this.width = savedInstanceState.getInt(widthSavedStateKey)
+            this.height = savedInstanceState.getInt(heightSavedStateKey)
+            this.swipeDuration = savedInstanceState.getLong(swipeDurationSavedStateKey)
+            this.newBlockPolicy = SettingsKeeper.BlockStrategy.fromInt(savedInstanceState.getInt(newBlockPolicySavedStateKey))!!
             this.logicPlayGrid = savedInstanceState.getParcelable(logicPlayGridSavedStateKey)
             this.previousStates.addAll(savedInstanceState.getParcelable(previousStatesSavedStateKey) as ParcelableMutableList<PlayGrid.State>)
         }
@@ -127,7 +166,8 @@ class MainActivity : ActivityWithSettings() {
         });
 
         buttonRestart.setOnClickListener {
-            this.logicPlayGrid = PlayGrid(width, height)
+            this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
+            this.previousStates.clear()
             recreate()
         }
 
@@ -136,11 +176,8 @@ class MainActivity : ActivityWithSettings() {
                 val lastIndex = previousStates.size - 1
                 val prevState = previousStates[lastIndex]
                 previousStates.removeAt(lastIndex)
-                logicPlayGrid = PlayGrid(prevState)
+                logicPlayGrid = PlayGrid(prevState, newBlockPolicy)
                 recreate()
-//                Cells()
-//                this.constraintPlayGridLayout.invalidate()
-//                updateScore()
             }
         }
     }
@@ -148,15 +185,9 @@ class MainActivity : ActivityWithSettings() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig);
         Log.e("anima", "ori ${newConfig.orientation} ${requestedOrientation}")
-        //playGridLayout.rotation = ((newConfig.orientation + 1) * 90).toFloat()
         playGridLayout!!.invalidate()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
 
     fun createCell(value: Int, parent: View? = null): View {
         val playGrid = this.playGrid!!
@@ -206,18 +237,13 @@ class MainActivity : ActivityWithSettings() {
         val playGridLayout = this.playGridLayout!!
         val state = logicPlayGrid.state
 
-
         for ((cId, cell) in cellMap) {
-
             val oldCell = cellMap[cId]!!
             val cellView = cell.second
             val (i, j) = oldCell.first
             if (cellView.parent != playGridLayout) {
                 ejectSavingSizeAndPos(cellView, playGrid[i][j], playGridLayout)
-                //playGridLayout.addView(cellView)
             }
-
-
         }
     }
 
@@ -287,7 +313,6 @@ class MainActivity : ActivityWithSettings() {
                 val (i, j) = oldCell.first
                 if (cellView.parent != playGridLayout) {
                     ejectSavingSizeAndPos(cellView, playGrid[i][j], playGridLayout)
-                    //playGridLayout.addView(cellView)
                 }
 
                 longAnimations += 1
@@ -311,18 +336,11 @@ class MainActivity : ActivityWithSettings() {
                             playGridLayout.removeView(cellView)
                             cellMap.remove(cId)
                         }
-                    } else {
-//                        val (i, j) = cell.first
-//                        val cellView = createCell(state.values[cId]!!, playGrid[i][j])
-//                        playGrid[i][j].addView(cellView)
-//                        cellMap[cId] = Pair(cell.first, cellView)
                     }
                 }
                 for (cell in hiddenCells) {
                     cell.visibility = View.VISIBLE
                 }
-//                recreateCells()
-
                 updateScore()
                 playGridLayout.invalidate()
             }
@@ -342,19 +360,6 @@ class MainActivity : ActivityWithSettings() {
 
         finalAnimationsListener.onAnimationEnd(null)
     }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        ejectAll()
-//        playGridLayout!!.invalidate()
-//
-//        return when (item.itemId) {
-//            R.id.action_settings -> {
-//                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
-//                return true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
 
     /**
      * A native method that is implemented by the 'native-lib' native library,

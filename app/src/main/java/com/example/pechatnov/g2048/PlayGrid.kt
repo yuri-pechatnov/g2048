@@ -3,8 +3,10 @@ package com.example.pechatnov.g2048
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
+import java.util.ArrayList
+import java.util.Random
 
-class PlayGrid(width: Int, height: Int) : Parcelable {
+class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrategy) : Parcelable {
 
     class State(width: Int, height: Int) {
         val width = width;
@@ -36,11 +38,12 @@ class PlayGrid(width: Int, height: Int) : Parcelable {
     }
 
     private var currentState = State(width, height)
+    private val blockStrategy = blockStrategy
 
     val state: State
         get() = State(currentState.matrix, currentState.values, currentState.score)
 
-    constructor(state: State) : this(state.width, state.height) {
+    constructor(state: State, blockStrategy: SettingsKeeper.BlockStrategy) : this(state.width, state.height, blockStrategy) {
         currentState = state
     }
 
@@ -105,11 +108,36 @@ class PlayGrid(width: Int, height: Int) : Parcelable {
             }
         }
 
-        //debug
-        if (currentState.matrix[2][2] == 0) {
-            currentState.matrix[2][2] = currentNo
+        val candidates = ArrayList<Pair<Int, Int>>();
+        when (this.blockStrategy) {
+            SettingsKeeper.BlockStrategy.CENTER -> {
+                val hw = currentState.width / 2
+                val hh = currentState.height / 2
+                val hw1 = (currentState.width + 1) / 2
+                val hh1 = (currentState.height + 1) / 2
+                candidates.add(Pair(hw, hh))
+                candidates.add(Pair(hw1, hh))
+                candidates.add(Pair(hw, hh1))
+                candidates.add(Pair(hw1, hh1))
+            }
+            SettingsKeeper.BlockStrategy.RANDOM_CORNER -> {
+                candidates.addAll(arrayOf(
+                        Pair(0, 0),
+                        Pair(0, currentState.height - 1),
+                        Pair(currentState.width - 1, 0),
+                        Pair(currentState.width - 1, currentState.height - 1)
+                ))
+            }
+        }
+        val emptyCandidates = candidates.filter { currentState.matrix[it.first][it.second] == 0 }
+
+        if (emptyCandidates.isEmpty()) {
+            // do nothing
+        } else {
+            val (i, j) = emptyCandidates[Random().nextInt(emptyCandidates.size)]
+            currentState.matrix[i][j] = currentNo
             currentState.values[currentNo] = 1
-            toMove[currentNo] = Pair(Pair(2, 2), false)
+            toMove[currentNo] = Pair(Pair(i, j), false)
             currentNo += 1
         }
 
@@ -119,7 +147,6 @@ class PlayGrid(width: Int, height: Int) : Parcelable {
             toMove = (toMove.mapValues {
                 Pair(Pair(it.value.first.second, currentState.width - 1 - it.value.first.first), it.value.second)
             }).toMutableMap()
-
         }
 
         return toMove
@@ -161,7 +188,7 @@ class PlayGrid(width: Int, height: Int) : Parcelable {
     val CREATOR: Parcelable.Creator<PlayGrid> = object : Parcelable.Creator<PlayGrid> {
         override fun createFromParcel(input: Parcel): PlayGrid {
             assert(false)
-            return PlayGrid(3, 3)
+            return PlayGrid(3, 3, SettingsKeeper.BlockStrategy.CENTER)
         }
         override fun newArray(size: Int): Array<PlayGrid?> {
             return arrayOfNulls<PlayGrid>(size)

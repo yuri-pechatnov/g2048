@@ -7,8 +7,33 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.util.Map;
+import java.util.HashMap;
 
 public class SettingsKeeper {
+
+    public enum BlockStrategy {
+        CENTER(0),
+        RANDOM_CORNER(1);
+
+        private static final Map<Integer, BlockStrategy> typesByValue = new HashMap<Integer, BlockStrategy>();
+
+        static {
+            for (BlockStrategy type : BlockStrategy.values()) {
+                typesByValue.put(type.value, type);
+            }
+        }
+
+        final Integer value;
+
+        private BlockStrategy(int value) {
+            this.value = value;
+        }
+
+        public static BlockStrategy fromInt(Integer value) {
+            return typesByValue.get(value);
+        }
+    }
 
     private static final String SHARED_PREF_NAME = "SHARED_PREF_NAME";
     private static final String FIELD_SIZE_KEY = "FIELD_SIZE_KEY";
@@ -41,7 +66,16 @@ public class SettingsKeeper {
         sharedPreferences.edit().putString(SWIPE_SPEED_KEY, mGson.toJson(swipeSpeed, SWIPE_SPEED_TYPE)).apply();
     }
 
-    public String getBlockStrategy() {
+    public BlockStrategy getBlockStrategy() {
+        String strategyStr = getBlockStrategyStr();
+        if (strategyStr != null && strategyStr.equals("Случайно")) {
+            return BlockStrategy.RANDOM_CORNER;
+        } else {
+            return BlockStrategy.CENTER;
+        }
+    }
+
+    public String getBlockStrategyStr() {
         return mGson.fromJson(sharedPreferences.getString(BLOCK_STRATEGY_KEY, String.valueOf(R.string.block_random)), BLOCK_STRATEGY_TYPE);
     }
     @SuppressLint("Assert")

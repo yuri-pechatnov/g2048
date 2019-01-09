@@ -113,7 +113,7 @@ public class SettingsActivity extends ActivityWithSettings {
                 }
             }
         });
-        String blockStrategy = settingsKeeper.getBlockStrategy();
+        String blockStrategy = settingsKeeper.getBlockStrategyStr();
         if (blockStrategy.equals(getString(R.string.block_center))) {
             centerButton.setChecked(true);
         }

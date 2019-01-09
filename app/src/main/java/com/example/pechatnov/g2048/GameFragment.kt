@@ -1,5 +1,5 @@
 package com.example.pechatnov.g2048
-
+/*
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.res.Configuration
@@ -398,4 +398,4 @@ class GameFragment : Fragment() {
         }
     }
 
-}
+}*/

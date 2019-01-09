@@ -46,7 +46,7 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
             case R.id.action_settings:
                 String fieldSize = settingsKeeper.getFieldSize();
                 String swipeSpeed = settingsKeeper.getSwipeSpeed();
-                String blockStrategy = settingsKeeper.getBlockStrategy();
+                String blockStrategy = settingsKeeper.getBlockStrategyStr();
 
                 // Переход на activity с настройками
                 Intent startSettingsActivityIntent = new Intent(ActivityWithSettings.this, SettingsActivity.class);
@@ -97,7 +97,7 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREF_SIZE, settingsKeeper.getFieldSize()).apply();
         editor.putString(PREF_SPEED, settingsKeeper.getSwipeSpeed()).apply();
-        editor.putString(PREF_BLOCK, settingsKeeper.getBlockStrategy()).apply();
+        editor.putString(PREF_BLOCK, settingsKeeper.getBlockStrategyStr()).apply();
     }
 
 }
