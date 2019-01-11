@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.pechatnov.g2048.RatingActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:text="@string/remember_my_achievements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:id="@+id/tv_remember_achievements"
+        android:layout_margin="8dp"
+        android:paddingTop="5dp"
+        android:autoSizeTextType="uniform" android:typeface="sans" android:textStyle="bold"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_score"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:autoSizeTextType="uniform" android:typeface="sans" android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="@string/score_text"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:weightSum="2">
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nickname"
+            android:hint="@string/enter_nickname" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:id="@+id/button_submit"
+            android:background="@drawable/button" />
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/action_rating"
+        android:autoSizeTextType="uniform" android:typeface="sans" android:textStyle="bold"
+        android:textSize="20sp"/>
+    
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/scroll_view_linear_layout">
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
