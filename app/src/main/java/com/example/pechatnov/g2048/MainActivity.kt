@@ -308,7 +308,7 @@ class MainActivity : ActivityWithSettings() {
     }
 
     fun updateScore() {
-        scoreView.text = "Score: ${logicPlayGrid!!.state.score}"
+        scoreView.text = "${resources.getString(R.string.score_text)} ${logicPlayGrid!!.state.score}"
     }
 
     fun onGridSwipe(dir: Int) {
