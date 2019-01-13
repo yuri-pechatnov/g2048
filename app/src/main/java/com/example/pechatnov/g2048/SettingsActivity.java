@@ -3,6 +3,7 @@ package com.example.pechatnov.g2048;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -32,6 +33,10 @@ public class SettingsActivity extends ActivityWithSettings {
 
             fieldSizeValue.setText(progressString);
             settingsKeeper.setFieldSize(progressString);
+
+            SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(PREF_SIZE, progressString).apply();
         }
 
         @Override
@@ -52,6 +57,9 @@ public class SettingsActivity extends ActivityWithSettings {
 
             swipeSpeedValue.setText(progressString);
             settingsKeeper.setSwipeSpeed(progressString);
+            SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(PREF_SPEED, progressString).apply();
         }
 
         @Override
@@ -68,7 +76,7 @@ public class SettingsActivity extends ActivityWithSettings {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.settings_activity);
-        setSupportActionBar((android.support.v7.widget.Toolbar)findViewById(R.id.toolbar));
+        setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
         super.onCreate(savedInstanceState);
 
         fieldSizeBar = findViewById(R.id.fieldSize);
@@ -86,42 +94,57 @@ public class SettingsActivity extends ActivityWithSettings {
         settingsKeeper.setSwipeSpeed(bundle.get(PREF_SPEED).toString());
         settingsKeeper.setBlockStrategy(bundle.get(PREF_BLOCK).toString());
 
-//        fieldSizeBar.setMin(3);  // TODO: тут какие-то проблемы, не получается ткнуть дальше, чем на 5
-//        fieldSizeBar.setMax(8);
-        fieldSizeBar.setProgress(Integer.parseInt(settingsKeeper.getFieldSize()));
-        fieldSizeValue.setText(settingsKeeper.getFieldSize());
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREF_SIZE, settingsKeeper.getFieldSize()).apply();
+        editor.putString(PREF_SIZE, bundle.get(PREF_SIZE).toString()).apply();
+        editor.putString(PREF_SPEED, settingsKeeper.getSwipeSpeed()).apply();
+        editor.putString(PREF_BLOCK, settingsKeeper.getBlockStrategyStr()).apply();
 
         fieldSizeBar.setOnSeekBarChangeListener(onFieldSizeBarChangeListener);
-
-//        swipeSpeedBar.setMin(50);  // TODO: тут тоже по непонятным мне причинам до конца не дотягивает, надо разбираться
-//        swipeSpeedBar.setMax(1000);
-        swipeSpeedBar.setProgress(Integer.parseInt(settingsKeeper.getSwipeSpeed()));
-        swipeSpeedValue.setText(settingsKeeper.getSwipeSpeed());
-
         swipeSpeedBar.setOnSeekBarChangeListener(onSwipeSpeedChangeListener);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
                 switch (checkedId) {
                     case R.id.rbBlockCenter:
                         settingsKeeper.setBlockStrategy(getString(R.string.block_center_eng));
+                        editor.putString(PREF_BLOCK, getString(R.string.block_center_eng)).apply();
                         break;
                     case R.id.rbBlockRandom:
                         settingsKeeper.setBlockStrategy(getString(R.string.block_random_eng));
+                        editor.putString(PREF_BLOCK, getString(R.string.block_random_eng)).apply();
                         break;
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        settingsKeeper = new SettingsKeeper(this);
+        settingsKeeper.setFieldSize(sharedPreferences.getString(PREF_SIZE, "4"));
+        settingsKeeper.setSwipeSpeed(sharedPreferences.getString(PREF_SPEED, "500"));
+        settingsKeeper.setBlockStrategy(sharedPreferences.getString(PREF_BLOCK, String.valueOf(R.string.block_random_eng)));
+
+        fieldSizeBar.setProgress(Integer.parseInt(settingsKeeper.getFieldSize()));
+        fieldSizeValue.setText(settingsKeeper.getFieldSize());
+        swipeSpeedBar.setProgress(Integer.parseInt(settingsKeeper.getSwipeSpeed()));
+        swipeSpeedValue.setText(settingsKeeper.getSwipeSpeed());
+
         String blockStrategy = settingsKeeper.getBlockStrategyStr();
-//        Toast.makeText(SettingsActivity.this, blockStrategy, Toast.LENGTH_SHORT).show();
         if (blockStrategy.equals(getString(R.string.block_center_eng))) {
-//            Toast.makeText(SettingsActivity.this, "Block center is checked", Toast.LENGTH_SHORT).show();
             centerButton.setChecked(true);
         }
         if (blockStrategy.equals(getString(R.string.block_random_eng))) {
-//        else {
-//            Toast.makeText(SettingsActivity.this, "Block random is checked", Toast.LENGTH_SHORT).show();
             randomButton.setChecked(true);
         }
     }
@@ -129,7 +152,11 @@ public class SettingsActivity extends ActivityWithSettings {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        intent.putExtra(SettingsActivity.PREF_SIZE, settingsKeeper.getFieldSize());
+
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+//        intent.putExtra(SettingsActivity.PREF_SIZE, settingsKeeper.getFieldSize());
+        intent.putExtra(SettingsActivity.PREF_SIZE, sharedPreferences.getString(PREF_SIZE, "4"));
         intent.putExtra(SettingsActivity.PREF_SPEED, settingsKeeper.getSwipeSpeed());
 //        Toast.makeText(SettingsActivity.this, , Toast.LENGTH_SHORT).show();
         intent.putExtra(SettingsActivity.PREF_BLOCK, settingsKeeper.getBlockStrategyStr());
@@ -137,10 +164,16 @@ public class SettingsActivity extends ActivityWithSettings {
         super.onBackPressed();
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        Toast.makeText(SettingsActivity.this, "Destroy activity with settings", Toast.LENGTH_SHORT).show();
-//        super.onDestroy();
-//
-//    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Toast.makeText(SettingsActivity.this, "Save instance state", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        outState.putString(SettingsActivity.PREF_SIZE, sharedPreferences.getString(PREF_SIZE, "4"));
+        outState.putString(SettingsActivity.PREF_SPEED, sharedPreferences.getString(PREF_SPEED, "500"));
+        outState.putString(SettingsActivity.PREF_BLOCK, sharedPreferences.getString(PREF_SIZE, "At random"));
+        super.onSaveInstanceState(outState);
+    }
+
 }

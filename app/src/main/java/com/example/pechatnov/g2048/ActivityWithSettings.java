@@ -103,5 +103,4 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
         editor.putString(PREF_SPEED, settingsKeeper.getSwipeSpeed()).apply();
         editor.putString(PREF_BLOCK, settingsKeeper.getBlockStrategyStr()).apply();
     }
-
 }
