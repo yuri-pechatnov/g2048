@@ -1,7 +1,9 @@
 package com.example.pechatnov.g2048;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +23,7 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(ActivityWithSettings.this, "Create ActivityWithSettings", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(ActivityWithSettings.this, "Create ActivityWithSettings", Toast.LENGTH_SHORT).show();
 
         settingsKeeper = new SettingsKeeper(this);
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
@@ -56,17 +58,12 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
                 startActivityForResult(startSettingsActivityIntent, 1);
                 break;
 
-//            case R.id.actionSearch:
-//                Toast.makeText(SingleFragmentActivity.this, R.string.menuSearch, Toast.LENGTH_SHORT).show();
-//
-//                getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.fragmentContainer, SearchFragment.newInstance())
-//                        .addToBackStack(SearchFragment.class.getName())
-//                        .commit();
-//
-//
-//                break;
+            case R.id.action_rating:
+                Toast.makeText(ActivityWithSettings.this, R.string.action_rating, Toast.LENGTH_SHORT).show();
+                // Переход на activity с рейтингом
+                Intent startRatingActivityIntent = new Intent(ActivityWithSettings.this, RatingActivity.class);
+                startActivity(startRatingActivityIntent);
+                break;
 //            case R.id.actionExit:
 //                Toast.makeText(SingleFragmentActivity.this, R.string.menuExit, Toast.LENGTH_SHORT).show();
 //                finish();
