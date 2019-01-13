@@ -62,24 +62,25 @@ class MainActivity : ActivityWithSettings() {
 
     fun setPlayGridSize(size: Int) {
         if (size != this.width) {
+            this.width = size
+            this.height = size
+            this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
+            this.previousStates.clear()
             recreate()
         }
-        this.width = size
-        this.height = size
-        this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
-        this.previousStates.clear()
     }
 
     fun setBlockStrategy(policy: SettingsKeeper.BlockStrategy) {
         if (policy != this.newBlockPolicy) {
             this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
+            this.newBlockPolicy = policy
             recreate()
         }
-        this.newBlockPolicy = policy
     }
 
 
     override fun onSaveInstanceState(state: Bundle) {
+        Log.e("place", "onSaveInstanceState ${previousStates.size}")
         super.onSaveInstanceState(state)
         val logicPlayGrid = this.logicPlayGrid
         if (logicPlayGrid != null) {
@@ -93,6 +94,7 @@ class MainActivity : ActivityWithSettings() {
     }
 
     override fun onResume() {
+        Log.e("place", "onResume")
         val settings = SettingsKeeper(this)
         setPlayGridSize(settings.fieldSize.toInt())
         swipeDuration = settings.swipeSpeed.toLong()
@@ -100,7 +102,26 @@ class MainActivity : ActivityWithSettings() {
         super.onResume()
     }
 
+    override fun onStop() {
+        super.onStop()
+        //recreate()
+    }
+
+    override fun onStart() {
+        Log.e("place", "onStart")
+        //recreateCells()
+        //updateScore()
+        super.onStart()
+    }
+
+    override fun onRestart() {
+        Log.e("place", "onRestart")
+        super.onRestart()
+        recreate()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.e("place", "onCreate")
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
@@ -118,6 +139,8 @@ class MainActivity : ActivityWithSettings() {
             this.logicPlayGrid = savedInstanceState.getParcelable(logicPlayGridSavedStateKey)
             this.previousStates.addAll(savedInstanceState.getParcelable(previousStatesSavedStateKey) as ParcelableMutableList<PlayGrid.State>)
         }
+
+        Log.e("place", "onCreate _cont ${previousStates.size}")
 
         playGridLayout.removeAllViews()
 
@@ -141,7 +164,6 @@ class MainActivity : ActivityWithSettings() {
                 item.orientation = LinearLayout.HORIZONTAL
                 val layoutParams = LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                     LayoutParams.MATCH_PARENT,1f)
-                Log.e("f", "margin=%f".format(resources.getDimension(R.dimen.cell_margin)))
                 val margin: Int = resources.getDimension(R.dimen.cell_margin).toInt()
                 layoutParams.setMargins(margin, margin, margin, margin)
                 item.layoutParams = layoutParams
