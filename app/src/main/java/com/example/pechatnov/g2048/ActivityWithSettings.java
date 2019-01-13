@@ -15,6 +15,7 @@ import android.widget.Toast;
 public abstract class ActivityWithSettings extends AppCompatActivity {
 
     protected SettingsKeeper settingsKeeper;
+    protected Integer playScore = 0;
 
     public static String PREF_SIZE = "PREF_SIZE";
     public static String PREF_SPEED = "PREF_SPEED";
@@ -65,6 +66,7 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
                 Toast.makeText(ActivityWithSettings.this, R.string.action_rating, Toast.LENGTH_SHORT).show();
                 // Переход на activity с рейтингом
                 Intent startRatingActivityIntent = new Intent(ActivityWithSettings.this, RatingActivity.class);
+                startRatingActivityIntent.putExtra("score", playScore);
                 startActivity(startRatingActivityIntent);
                 break;
 //            case R.id.actionExit:

@@ -18,4 +18,7 @@
     <string name="place_in_rating">Place</string>
     <string name="name_in_rating">Name</string>
     <string name="score_in_rating">Score</string>
+    <string name="rating_load_error">Can\'t load rating</string>
+    <string name="server_url" translatable="false">http://g2048pechatnov.tk:8890</string>
+    <string name="score_update_error">Can\'t add result to common rating</string>
 </resources>

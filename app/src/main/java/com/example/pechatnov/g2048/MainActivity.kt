@@ -24,6 +24,9 @@ import android.content.res.Configuration
 import android.graphics.drawable.GradientDrawable
 import android.view.View;
 import android.widget.Toast
+import android.os.StrictMode
+
+
 
 
 class MainActivity : ActivityWithSettings() {
@@ -126,6 +129,9 @@ class MainActivity : ActivityWithSettings() {
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
         if (savedInstanceState == null) {
             Log.e("anima", "Create anew")
@@ -308,7 +314,8 @@ class MainActivity : ActivityWithSettings() {
     }
 
     fun updateScore() {
-        scoreView.text = "${resources.getString(R.string.score_text)} ${logicPlayGrid!!.state.score}"
+        playScore = logicPlayGrid!!.state.score
+        scoreView.text = "${resources.getString(R.string.score_text)} ${playScore}"
     }
 
     fun onGridSwipe(dir: Int) {

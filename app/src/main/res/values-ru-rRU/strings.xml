@@ -17,4 +17,6 @@
     <string name="place_in_rating">Место</string>
     <string name="name_in_rating">Имя</string>
     <string name="score_in_rating">Очки</string>
+    <string name="rating_load_error">Не получается загрузить рейтинг</string>
+    <string name="score_update_error">Не получилось добавить результат в общий рейтинг</string>
 </resources>
