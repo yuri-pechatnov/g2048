@@ -105,19 +105,23 @@ public class SettingsActivity extends ActivityWithSettings {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbBlockCenter:
-                        settingsKeeper.setBlockStrategy(getString(R.string.block_center));
+                        settingsKeeper.setBlockStrategy(getString(R.string.block_center_eng));
                         break;
                     case R.id.rbBlockRandom:
-                        settingsKeeper.setBlockStrategy(getString(R.string.block_random));
+                        settingsKeeper.setBlockStrategy(getString(R.string.block_random_eng));
                         break;
                 }
             }
         });
         String blockStrategy = settingsKeeper.getBlockStrategyStr();
-        if (blockStrategy.equals(getString(R.string.block_center))) {
+//        Toast.makeText(SettingsActivity.this, blockStrategy, Toast.LENGTH_SHORT).show();
+        if (blockStrategy.equals(getString(R.string.block_center_eng))) {
+//            Toast.makeText(SettingsActivity.this, "Block center is checked", Toast.LENGTH_SHORT).show();
             centerButton.setChecked(true);
         }
-        if (blockStrategy.equals(getString(R.string.block_random))) {
+        if (blockStrategy.equals(getString(R.string.block_random_eng))) {
+//        else {
+//            Toast.makeText(SettingsActivity.this, "Block random is checked", Toast.LENGTH_SHORT).show();
             randomButton.setChecked(true);
         }
     }
@@ -127,7 +131,8 @@ public class SettingsActivity extends ActivityWithSettings {
         Intent intent = new Intent();
         intent.putExtra(SettingsActivity.PREF_SIZE, settingsKeeper.getFieldSize());
         intent.putExtra(SettingsActivity.PREF_SPEED, settingsKeeper.getSwipeSpeed());
-        intent.putExtra(SettingsActivity.PREF_BLOCK, settingsKeeper.getBlockStrategy());
+//        Toast.makeText(SettingsActivity.this, , Toast.LENGTH_SHORT).show();
+        intent.putExtra(SettingsActivity.PREF_BLOCK, settingsKeeper.getBlockStrategyStr());
         setResult(RESULT_OK, intent);
         super.onBackPressed();
     }

@@ -5,7 +5,9 @@
     <string name="swipe_speed">Скорость свайпа</string>
     <string name="new_block">Появление нового блока</string>
     <string name="block_center">По центру</string>
+    <string name="block_center_eng">In the center</string>
     <string name="block_random">Случайно</string>
+    <string name="block_random_eng">At random</string>
     <string name="action_rating">Rating</string>
     <string name="remember_my_achievements">Remember my achievements</string>
     <string name="score_text">Score:</string>

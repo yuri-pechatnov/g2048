@@ -68,7 +68,7 @@ public class SettingsKeeper {
 
     public BlockStrategy getBlockStrategy() {
         String strategyStr = getBlockStrategyStr();
-        if (strategyStr != null && strategyStr.equals("Случайно")) {
+        if (strategyStr != null && strategyStr.equals(String.valueOf(R.string.block_random_eng))) {
             return BlockStrategy.RANDOM_CORNER;
         } else {
             return BlockStrategy.CENTER;
@@ -76,11 +76,11 @@ public class SettingsKeeper {
     }
 
     public String getBlockStrategyStr() {
-        return mGson.fromJson(sharedPreferences.getString(BLOCK_STRATEGY_KEY, String.valueOf(R.string.block_random)), BLOCK_STRATEGY_TYPE);
+        return mGson.fromJson(sharedPreferences.getString(BLOCK_STRATEGY_KEY, String.valueOf(R.string.block_random_eng)), BLOCK_STRATEGY_TYPE);
     }
     @SuppressLint("Assert")
     public  void setBlockStrategy(String blockStrategy) {
-        assert (blockStrategy.equals("Случайно") || blockStrategy.equals("По центру"));
+        assert (blockStrategy.equals("At random") || blockStrategy.equals("In the center"));
         sharedPreferences.edit().putString(BLOCK_STRATEGY_KEY, mGson.toJson(blockStrategy, BLOCK_STRATEGY_TYPE)).apply();
     }
 

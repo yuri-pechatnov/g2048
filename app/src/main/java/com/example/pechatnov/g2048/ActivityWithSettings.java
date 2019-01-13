@@ -23,13 +23,13 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Toast.makeText(ActivityWithSettings.this, "Create ActivityWithSettings", Toast.LENGTH_SHORT).show();
 
         settingsKeeper = new SettingsKeeper(this);
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         settingsKeeper.setFieldSize(sharedPreferences.getString(PREF_SIZE, "4"));
         settingsKeeper.setSwipeSpeed(sharedPreferences.getString(PREF_SPEED, "500"));
-        settingsKeeper.setBlockStrategy(sharedPreferences.getString(PREF_BLOCK, getString(R.string.block_random)));
+        settingsKeeper.setBlockStrategy(sharedPreferences.getString(PREF_BLOCK, getString(R.string.block_random_eng)));
+//        Toast.makeText(ActivityWithSettings.this, settingsKeeper.getBlockStrategyStr(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -55,6 +55,9 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
                 startSettingsActivityIntent.putExtra(SettingsActivity.PREF_SIZE, fieldSize);
                 startSettingsActivityIntent.putExtra(SettingsActivity.PREF_SPEED, swipeSpeed);
                 startSettingsActivityIntent.putExtra(SettingsActivity.PREF_BLOCK, blockStrategy);
+//                Toast.makeText(ActivityWithSettings.this,
+//                        blockStrategy,
+//                        Toast.LENGTH_SHORT).show();
                 startActivityForResult(startSettingsActivityIntent, 1);
                 break;
 
@@ -83,6 +86,10 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
                 settingsKeeper.setFieldSize(data.getStringExtra(ActivityWithSettings.PREF_SIZE));
                 settingsKeeper.setSwipeSpeed(data.getStringExtra(ActivityWithSettings.PREF_SPEED));
                 settingsKeeper.setBlockStrategy(data.getStringExtra(ActivityWithSettings.PREF_BLOCK));
+
+//                Toast.makeText(ActivityWithSettings.this,
+//                        data.getStringExtra(ActivityWithSettings.PREF_BLOCK),
+//                        Toast.LENGTH_SHORT).show();
             }
         }
     }
