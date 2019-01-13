@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Игра 2048</string>
+    <string name="action_settings">Настройки</string>
+    <string name="field_size">Размер поля</string>
+    <string name="swipe_speed">Продолжительность движения (мс)</string>
+    <string name="new_block">Место появления нового блока</string>
+    <string name="block_center">По центру</string>
+    <string name="block_random">В случайном месте</string>
+    <string name="action_rating">Рейтинг</string>
+    <string name="remember_my_achievements">Сохраните ваши достижения</string>
+    <string name="score_text">Очки:</string>
+    <string name="enter_nickname">Введите имя:</string>
+    <string name="submit">Отправить</string>
+    <string name="restart_button">Сброс</string>
+    <string name="undo_button">Отмена</string>
+    <string name="place_in_rating">Место</string>
+    <string name="name_in_rating">Имя</string>
+    <string name="score_in_rating">Очки</string>
+</resources>

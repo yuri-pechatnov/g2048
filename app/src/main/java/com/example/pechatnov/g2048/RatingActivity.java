@@ -105,9 +105,9 @@ public class RatingActivity extends ActivityWithSettings {
             TextView tv3 = new TextView(this);
 
             if (i == -1) {
-                tv1.setText("Place");
-                tv2.setText("Name");
-                tv3.setText("Score");
+                tv1.setText(getResources().getString(R.string.place_in_rating));
+                tv2.setText(getResources().getString(R.string.name_in_rating));
+                tv3.setText(getResources().getString(R.string.score_in_rating));
 
                 tv1.setTypeface(null, Typeface.BOLD);
                 tv2.setTypeface(null, Typeface.BOLD);

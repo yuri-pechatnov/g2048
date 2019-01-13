@@ -120,6 +120,13 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
                 candidates.add(Pair(hw, hh1))
                 candidates.add(Pair(hw1, hh1))
             }
+            SettingsKeeper.BlockStrategy.RANDOM -> {
+                for (i in 0 until currentState.width) {
+                    for (j in 0 until currentState.height) {
+                        candidates.add(Pair(i, j))
+                    }
+                }
+            }
             SettingsKeeper.BlockStrategy.RANDOM_CORNER -> {
                 candidates.addAll(arrayOf(
                         Pair(0, 0),

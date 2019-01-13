@@ -14,7 +14,8 @@ public class SettingsKeeper {
 
     public enum BlockStrategy {
         CENTER(0),
-        RANDOM_CORNER(1);
+        RANDOM(1),
+        RANDOM_CORNER(2);
 
         private static final Map<Integer, BlockStrategy> typesByValue = new HashMap<Integer, BlockStrategy>();
 
@@ -69,7 +70,7 @@ public class SettingsKeeper {
     public BlockStrategy getBlockStrategy() {
         String strategyStr = getBlockStrategyStr();
         if (strategyStr != null && strategyStr.equals(String.valueOf(R.string.block_random_eng))) {
-            return BlockStrategy.RANDOM_CORNER;
+            return BlockStrategy.RANDOM;
         } else {
             return BlockStrategy.CENTER;
         }
