@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import android.util.Log;
+
 public class SettingsActivity extends ActivityWithSettings {
 
     private SettingsKeeper settingsKeeper;
@@ -141,6 +143,7 @@ public class SettingsActivity extends ActivityWithSettings {
         swipeSpeedValue.setText(settingsKeeper.getSwipeSpeed());
 
         String blockStrategy = settingsKeeper.getBlockStrategyStr();
+        Log.e("place", " onResume of settings, blockStrat=" + blockStrategy);
         if (blockStrategy.equals(getString(R.string.block_center_eng))) {
             centerButton.setChecked(true);
         }

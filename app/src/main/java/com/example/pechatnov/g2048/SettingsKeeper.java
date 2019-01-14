@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.util.Map;
 import java.util.HashMap;
+import android.util.Log;
 
 public class SettingsKeeper {
 
@@ -50,8 +51,10 @@ public class SettingsKeeper {
 
     private Gson mGson = new Gson();
     private SharedPreferences sharedPreferences;
+    private Context context;
 
     SettingsKeeper(Context context) {
+        this.context = context;
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
@@ -71,9 +74,16 @@ public class SettingsKeeper {
 
     public BlockStrategy getBlockStrategy() {
         String strategyStr = getBlockStrategyStr();
-        if (strategyStr != null && strategyStr.equals(String.valueOf(R.string.block_random_eng))) {
+        if (strategyStr != null) {
+            Log.e("place", "getBlockStrategy = " + strategyStr);
+        } else {
+            Log.e("place", "getBlockStrategy = null");
+        }
+        if (strategyStr != null && strategyStr.equals(context.getString(R.string.block_random_eng))) {
+            Log.e("place", "getBlockStrategy = really random");
             return BlockStrategy.RANDOM;
         } else {
+            Log.e("place", "getBlockStrategy = really center");
             return BlockStrategy.CENTER;
         }
     }
@@ -82,8 +92,8 @@ public class SettingsKeeper {
         return mGson.fromJson(sharedPreferences.getString(BLOCK_STRATEGY_KEY, String.valueOf(R.string.block_random_eng)), BLOCK_STRATEGY_TYPE);
     }
     @SuppressLint("Assert")
-    public  void setBlockStrategy(String blockStrategy) {
-        assert (blockStrategy.equals("At random") || blockStrategy.equals("In the center"));
+    public void setBlockStrategy(String blockStrategy) {
+        assert (blockStrategy.equals(String.valueOf(R.string.block_random_eng)) || blockStrategy.equals(String.valueOf(R.string.block_center_eng)));
         sharedPreferences.edit().putString(BLOCK_STRATEGY_KEY, mGson.toJson(blockStrategy, BLOCK_STRATEGY_TYPE)).apply();
     }
 

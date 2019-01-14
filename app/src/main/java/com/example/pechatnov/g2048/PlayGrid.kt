@@ -109,6 +109,7 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
         }
 
         val candidates = ArrayList<Pair<Int, Int>>();
+        Log.e("place", "real strategy ${this.blockStrategy}")
         when (this.blockStrategy) {
             SettingsKeeper.BlockStrategy.CENTER -> {
                 val hw = currentState.width / 2

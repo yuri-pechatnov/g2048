@@ -75,7 +75,7 @@ class MainActivity : ActivityWithSettings() {
 
     fun setBlockStrategy(policy: SettingsKeeper.BlockStrategy) {
         if (policy != this.newBlockPolicy) {
-            this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
+            this.logicPlayGrid = PlayGrid(width, height, policy)
             this.newBlockPolicy = policy
             recreate()
         }
@@ -101,6 +101,8 @@ class MainActivity : ActivityWithSettings() {
         val settings = SettingsKeeper(this)
         setPlayGridSize(settings.fieldSize.toInt())
         swipeDuration = settings.swipeSpeed.toLong()
+
+        Log.e("place", "real strategy in onResume ${settings.blockStrategy}")
         setBlockStrategy(settings.blockStrategy)
         super.onResume()
     }
