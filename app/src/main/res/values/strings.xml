@@ -21,4 +21,7 @@
     <string name="rating_load_error">Can\'t load rating</string>
     <string name="server_url" translatable="false">http://g2048pechatnov.tk:8890</string>
     <string name="score_update_error">Can\'t add result to common rating</string>
+    <string name="add_score_to_rating">Add score to rating?</string>
+    <string name="add_score_cancel">Cancel</string>
+    <string name="add_score_add">Yes!</string>
 </resources>

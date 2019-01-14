@@ -113,6 +113,18 @@ public class RatingActivity extends ActivityWithSettings {
         setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
         super.onCreate(savedInstanceState);
 
+
+        if (getScore() == -1) {
+            findViewById(R.id.tv_remember_achievements).setVisibility(View.GONE);
+            findViewById(R.id.tv_score).setVisibility(View.GONE);
+            findViewById(R.id.enter_layout).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.tv_remember_achievements).setVisibility(View.VISIBLE);
+            findViewById(R.id.tv_score).setVisibility(View.VISIBLE);
+            findViewById(R.id.enter_layout).setVisibility(View.VISIBLE);
+        }
+
+
         TextView scoreLabel = findViewById(R.id.tv_score);
         scoreLabel.setText(getResources().getString(R.string.score_text) + " " + String.valueOf(getScore()));
 

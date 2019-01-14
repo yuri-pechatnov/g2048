@@ -25,8 +25,9 @@ import android.graphics.drawable.GradientDrawable
 import android.view.View;
 import android.widget.Toast
 import android.os.StrictMode
-
-
+import android.support.v7.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 
 
 class MainActivity : ActivityWithSettings() {
@@ -194,9 +195,7 @@ class MainActivity : ActivityWithSettings() {
         });
 
         buttonRestart.setOnClickListener {
-            this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
-            this.previousStates.clear()
-            recreate()
+            doRestart()
         }
 
         buttonUndo.setOnClickListener {
@@ -208,6 +207,12 @@ class MainActivity : ActivityWithSettings() {
                 recreate()
             }
         }
+    }
+
+    fun doRestart() {
+        this.logicPlayGrid = PlayGrid(width, height, newBlockPolicy)
+        this.previousStates.clear()
+        recreate()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -355,6 +360,7 @@ class MainActivity : ActivityWithSettings() {
             }
         }
 
+        val context = this
         val finalAnimationsListener = object: FinalEndListener(2 * longAnimations + 1) {
             override fun onAnimationFinalEnd() {
                 Log.e("anima", "Animation end!")
@@ -374,10 +380,7 @@ class MainActivity : ActivityWithSettings() {
                 playGridLayout.invalidate()
 
                 if (logicPlayGrid.isGameOver()) {
-                    val toast = Toast.makeText(applicationContext, "Game over!",
-                            Toast.LENGTH_LONG)
-                    toast.setGravity(Gravity.CENTER, 0, 0)
-                    toast.show()
+                    onGameOver()
                 }
             }
         }
@@ -395,6 +398,31 @@ class MainActivity : ActivityWithSettings() {
         }
 
         finalAnimationsListener.onAnimationEnd(null)
+    }
+
+    fun onGameOver() {
+        val toast = Toast.makeText(applicationContext, "Game over!",
+                Toast.LENGTH_LONG)
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.show()
+
+        val context = this
+        val builder = AlertDialog.Builder(this);
+        builder.setTitle(R.string.add_score_to_rating)
+        builder.setPositiveButton(R.string.add_score_add, object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, id: Int) {
+                val startRatingActivityIntent = Intent(context, RatingActivity::class.java)
+                startRatingActivityIntent.putExtra("score", playScore)
+                startActivity(startRatingActivityIntent)
+                doRestart()
+            }
+        });
+        builder.setNegativeButton(R.string.add_score_cancel, object: DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, id: Int) {
+                doRestart()
+            }
+        });
+        builder.show()
     }
 
     /**
