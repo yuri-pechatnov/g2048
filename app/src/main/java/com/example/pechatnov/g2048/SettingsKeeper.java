@@ -74,16 +74,9 @@ public class SettingsKeeper {
 
     public BlockStrategy getBlockStrategy() {
         String strategyStr = getBlockStrategyStr();
-        if (strategyStr != null) {
-            Log.e("place", "getBlockStrategy = " + strategyStr);
-        } else {
-            Log.e("place", "getBlockStrategy = null");
-        }
         if (strategyStr != null && strategyStr.equals(context.getString(R.string.block_random_eng))) {
-            Log.e("place", "getBlockStrategy = really random");
             return BlockStrategy.RANDOM;
         } else {
-            Log.e("place", "getBlockStrategy = really center");
             return BlockStrategy.CENTER;
         }
     }

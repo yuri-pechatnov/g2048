@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 public abstract class ActivityWithSettings extends AppCompatActivity {
 
-    protected SettingsKeeper settingsKeeper;
     protected Integer playScore = 0;
 
     public static String PREF_SIZE = "PREF_SIZE";
@@ -24,13 +23,6 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        settingsKeeper = new SettingsKeeper(this);
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        settingsKeeper.setFieldSize(sharedPreferences.getString(PREF_SIZE, "4"));
-        settingsKeeper.setSwipeSpeed(sharedPreferences.getString(PREF_SPEED, "500"));
-        settingsKeeper.setBlockStrategy(sharedPreferences.getString(PREF_BLOCK, getString(R.string.block_random_eng)));
-//        Toast.makeText(ActivityWithSettings.this, settingsKeeper.getBlockStrategyStr(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -47,18 +39,8 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
             // Здесь нужно получить значение текущих настроек
 
             case R.id.action_settings:
-                String fieldSize = settingsKeeper.getFieldSize();
-                String swipeSpeed = settingsKeeper.getSwipeSpeed();
-                String blockStrategy = settingsKeeper.getBlockStrategyStr();
-
                 // Переход на activity с настройками
                 Intent startSettingsActivityIntent = new Intent(ActivityWithSettings.this, SettingsActivity.class);
-                startSettingsActivityIntent.putExtra(SettingsActivity.PREF_SIZE, fieldSize);
-                startSettingsActivityIntent.putExtra(SettingsActivity.PREF_SPEED, swipeSpeed);
-                startSettingsActivityIntent.putExtra(SettingsActivity.PREF_BLOCK, blockStrategy);
-//                Toast.makeText(ActivityWithSettings.this,
-//                        blockStrategy,
-//                        Toast.LENGTH_SHORT).show();
                 startActivityForResult(startSettingsActivityIntent, 1);
                 break;
 
@@ -83,26 +65,5 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                settingsKeeper.setFieldSize(data.getStringExtra(ActivityWithSettings.PREF_SIZE));
-                settingsKeeper.setSwipeSpeed(data.getStringExtra(ActivityWithSettings.PREF_SPEED));
-                settingsKeeper.setBlockStrategy(data.getStringExtra(ActivityWithSettings.PREF_BLOCK));
-
-//                Toast.makeText(ActivityWithSettings.this,
-//                        data.getStringExtra(ActivityWithSettings.PREF_BLOCK),
-//                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(PREF_SIZE, settingsKeeper.getFieldSize()).apply();
-        editor.putString(PREF_SPEED, settingsKeeper.getSwipeSpeed()).apply();
-        editor.putString(PREF_BLOCK, settingsKeeper.getBlockStrategyStr()).apply();
     }
 }

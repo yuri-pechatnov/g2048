@@ -74,7 +74,7 @@ public class SettingsActivity extends ActivityWithSettings {
             // TODO ?
         }
     };
-
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.settings_activity);
@@ -89,17 +89,17 @@ public class SettingsActivity extends ActivityWithSettings {
         randomButton = findViewById(R.id.rbBlockRandom);
         centerButton = findViewById(R.id.rbBlockCenter);
 
-        Bundle bundle = getIntent().getExtras();
+//        Bundle bundle = getIntent().getExtras();
 
         settingsKeeper = new SettingsKeeper(this);
-        settingsKeeper.setFieldSize(bundle.get(PREF_SIZE).toString());
-        settingsKeeper.setSwipeSpeed(bundle.get(PREF_SPEED).toString());
-        settingsKeeper.setBlockStrategy(bundle.get(PREF_BLOCK).toString());
+//        settingsKeeper.setFieldSize(bundle.get(PREF_SIZE).toString());
+//        settingsKeeper.setSwipeSpeed(bundle.get(PREF_SPEED).toString());
+//        settingsKeeper.setBlockStrategy(bundle.get(PREF_BLOCK).toString());
 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREF_SIZE, settingsKeeper.getFieldSize()).apply();
-        editor.putString(PREF_SIZE, bundle.get(PREF_SIZE).toString()).apply();
+//        editor.putString(PREF_SIZE, bundle.get(PREF_SIZE).toString()).apply();
         editor.putString(PREF_SPEED, settingsKeeper.getSwipeSpeed()).apply();
         editor.putString(PREF_BLOCK, settingsKeeper.getBlockStrategyStr()).apply();
 
@@ -143,7 +143,6 @@ public class SettingsActivity extends ActivityWithSettings {
         swipeSpeedValue.setText(settingsKeeper.getSwipeSpeed());
 
         String blockStrategy = settingsKeeper.getBlockStrategyStr();
-        Log.e("place", " onResume of settings, blockStrat=" + blockStrategy);
         if (blockStrategy.equals(getString(R.string.block_center_eng))) {
             centerButton.setChecked(true);
         }
@@ -177,6 +176,17 @@ public class SettingsActivity extends ActivityWithSettings {
         outState.putString(SettingsActivity.PREF_SPEED, sharedPreferences.getString(PREF_SPEED, "500"));
         outState.putString(SettingsActivity.PREF_BLOCK, sharedPreferences.getString(PREF_SIZE, "At random"));
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("requests","onDestroy in SettingsActivity");
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREF_SIZE, settingsKeeper.getFieldSize()).apply();
+        editor.putString(PREF_SPEED, settingsKeeper.getSwipeSpeed()).apply();
+        editor.putString(PREF_BLOCK, settingsKeeper.getBlockStrategyStr()).apply();
     }
 
 }

@@ -101,8 +101,6 @@ class MainActivity : ActivityWithSettings() {
         val settings = SettingsKeeper(this)
         setPlayGridSize(settings.fieldSize.toInt())
         swipeDuration = settings.swipeSpeed.toLong()
-
-        Log.e("place", "real strategy in onResume ${settings.blockStrategy}")
         setBlockStrategy(settings.blockStrategy)
         super.onResume()
     }
