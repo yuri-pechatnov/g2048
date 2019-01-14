@@ -372,6 +372,13 @@ class MainActivity : ActivityWithSettings() {
                 }
                 updateScore()
                 playGridLayout.invalidate()
+
+                if (logicPlayGrid.isGameOver()) {
+                    val toast = Toast.makeText(applicationContext, "Game over!",
+                            Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
+                }
             }
         }
 

@@ -74,7 +74,7 @@ public class SettingsActivity extends ActivityWithSettings {
             // TODO ?
         }
     };
-    
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.settings_activity);

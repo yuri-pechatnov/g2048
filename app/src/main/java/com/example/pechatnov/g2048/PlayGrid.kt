@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.util.Log
 import java.util.ArrayList
 import java.util.Random
+import java.util.TreeSet
 
 class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrategy) : Parcelable {
 
@@ -16,6 +17,14 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
         var score: Int = 0
 
         constructor(matrix: Array<Array<Int>>, values: Map<Int, Int>, score: Int = 0) : this(matrix.size, matrix[0].size) {
+            init(matrix, values, score)
+        }
+
+        constructor(state: State) : this(state.matrix.size, state.matrix[0].size) {
+            init(state.matrix, state.values, state.score)
+        }
+
+        fun init(matrix: Array<Array<Int>>, values: Map<Int, Int>, score: Int) {
             for ((k, v) in values) {
                 this.values[k] = v
             }
@@ -45,6 +54,20 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
 
     constructor(state: State, blockStrategy: SettingsKeeper.BlockStrategy) : this(state.width, state.height, blockStrategy) {
         currentState = state
+    }
+
+    fun isGameOver(): Boolean {
+        for (dir in 0..3) {
+            val playGrid = PlayGrid(State(currentState), blockStrategy)
+            playGrid.swipe(dir)
+            val oldState = state
+            val newState = playGrid.state
+
+            if (!oldState.values.equals(newState.values)) {
+                return false
+            }
+        }
+        return true
     }
 
     fun swipe(dir: Int): MutableMap<Int, Pair<Pair<Int, Int>, Boolean>> {
