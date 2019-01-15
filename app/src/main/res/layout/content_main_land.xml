@@ -41,7 +41,7 @@
 
             />
             <Button
-                    android:text="Restart"
+                    android:text="@string/restart_button"
                     android:background="@drawable/button"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -51,7 +51,7 @@
                     android:layout_gravity="center_vertical"
                     />
             <Button
-                    android:text="Undo"
+                    android:text="@string/undo_button"
                     android:background="@drawable/button"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
