@@ -28,6 +28,7 @@ import android.os.StrictMode
 import android.support.v7.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import kotlin.math.min
 
 
 class MainActivity : ActivityWithSettings() {
@@ -233,7 +234,7 @@ class MainActivity : ActivityWithSettings() {
         cellView.typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
 
         val background = GradientDrawable()
-        background.setColor(resources.getColor(CELL_COLORS[value]))
+        background.setColor(resources.getColor(CELL_COLORS[min(value, CELL_COLORS.size - 1)]))
         background.cornerRadii = FloatArray(8){ resources.getDimension(R.dimen.cell_round_radius) }
         background.shape = GradientDrawable.RECTANGLE
         background.setStroke(0, 0)

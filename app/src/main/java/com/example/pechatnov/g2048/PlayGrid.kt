@@ -73,16 +73,20 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
     fun swipe(dir: Int): MutableMap<Int, Pair<Pair<Int, Int>, Boolean>> {
         assert(dir in 0..3)
 
-        if (currentState.values.isEmpty()) {
-            return mutableMapOf<Int, Pair<Pair<Int, Int>, Boolean>>()
-        }
+//        if (currentState.values.isEmpty()) {
+//            return mutableMapOf<Int, Pair<Pair<Int, Int>, Boolean>>()
+//        }
 
         // rotate dir times
         for (dirI in 0 until dir) {
             currentState.rotateClockwise()
         }
 
-        var currentNo = (currentState.values.maxBy { it.key })!!.key + 1
+        var currentNo = if (!currentState.values.isEmpty()) {
+            (currentState.values.maxBy { it.key })!!.key + 1
+        } else {
+            1
+        }
         // cellNo -> ((dstI, dstJ), shouldDelete)
         var toMove = mutableMapOf<Int, Pair<Pair<Int, Int>, Boolean>>()
 
@@ -200,8 +204,9 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
         assert(width == height)
 
         //debug
-        currentState.matrix[1][1] = 1
-        currentState.values[1] = 1
+        swipe(0)
+//        currentState.matrix[1][1] = 1
+//        currentState.values[1] = 1
     }
 
     companion object {
