@@ -401,15 +401,12 @@ class MainActivity : ActivityWithSettings() {
     }
 
     fun onGameOver() {
-        val toast = Toast.makeText(applicationContext, "Game over!",
-                Toast.LENGTH_LONG)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.show()
 
         val context = this
         val builder = AlertDialog.Builder(this);
-        builder.setTitle(R.string.add_score_to_rating)
-        builder.setPositiveButton(R.string.add_score_add, object: DialogInterface.OnClickListener {
+        builder.setTitle(R.string.add_score_msg)
+        builder.setMessage(R.string.add_score_to_rating)
+        builder.setNegativeButton(R.string.add_score_add, object: DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface, id: Int) {
                 val startRatingActivityIntent = Intent(context, RatingActivity::class.java)
                 startRatingActivityIntent.putExtra("score", playScore)
@@ -417,7 +414,7 @@ class MainActivity : ActivityWithSettings() {
                 doRestart()
             }
         });
-        builder.setNegativeButton(R.string.add_score_cancel, object: DialogInterface.OnClickListener {
+        builder.setPositiveButton(R.string.add_score_cancel, object: DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface, id: Int) {
                 doRestart()
             }

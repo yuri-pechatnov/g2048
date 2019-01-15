@@ -17,9 +17,10 @@
     <string name="place_in_rating">Место</string>
     <string name="name_in_rating">Имя</string>
     <string name="score_in_rating">Очки</string>
-    <string name="rating_load_error">Не получается загрузить рейтинг</string>
-    <string name="score_update_error">Не получилось добавить результат в общий рейтинг</string>
-    <string name="add_score_to_rating">Сохранить ваш результат?</string>
+    <string name="rating_load_error">Невозможно загрузить рейтинг. Сервер временно недоступен</string>
+    <string name="score_update_error">Ошибка соединения с сервером</string>
+    <string name="add_score_to_rating">Желаете добавить свой результат в общий рейтинг?</string>
     <string name="add_score_cancel">Отмена</string>
     <string name="add_score_add">Да!</string>
+    <string name="add_score_msg">Игра окончена!</string>
 </resources>

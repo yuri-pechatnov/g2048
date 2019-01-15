@@ -18,10 +18,11 @@
     <string name="place_in_rating">Place</string>
     <string name="name_in_rating">Name</string>
     <string name="score_in_rating">Score</string>
-    <string name="rating_load_error">Can\'t load rating</string>
+    <string name="rating_load_error">Can\'t load rating. Server is unavailable</string>
     <string name="server_url" translatable="false">http://g2048pechatnov.tk:8890</string>
-    <string name="score_update_error">Can\'t add result to common rating</string>
-    <string name="add_score_to_rating">Add score to rating?</string>
+    <string name="score_update_error">Error connecting to server</string>
+    <string name="add_score_to_rating">Would you like to add your result to the overall rating?</string>
     <string name="add_score_cancel">Cancel</string>
     <string name="add_score_add">Yes!</string>
+    <string name="add_score_msg">Game over!</string>
 </resources>

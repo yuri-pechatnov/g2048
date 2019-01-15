@@ -42,6 +42,7 @@ public class RatingActivity extends ActivityWithSettings {
         connection.setRequestProperty("User-Agent", "Mozilla/5.0" );
         connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         connection.setRequestProperty("Content-Type", "application/json");
+        connection.setConnectTimeout(200);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;
@@ -101,7 +102,7 @@ public class RatingActivity extends ActivityWithSettings {
             Log.e("requests", "Failed add score :(", e);
             Toast toast = Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.score_update_error),
-                    Toast.LENGTH_SHORT);
+                    Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -137,81 +138,10 @@ public class RatingActivity extends ActivityWithSettings {
             Log.e("requests", "Failed :(", e);
             Toast toast = Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.rating_load_error),
-                    Toast.LENGTH_SHORT);
+                    Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
-        // TODO: загрузка score из MainActivity (наверное)
-
-        // TODO: ask server for json
-
-//        JSONArray jsonArray = new JSONArray();
-//        JSONObject jo1 = null;
-//        JSONObject jo2 = null;
-//        JSONObject jo3 = null;
-//        JSONObject jo4 = null;
-//        JSONObject jo5 = null;
-//        JSONObject jo6 = null;
-//        JSONObject jo7 = null;
-//        JSONObject jo8 = null;
-//        JSONObject jo9 = null;
-//        JSONObject jo10 = null;
-//        try {
-//             jo1 = new JSONObject()
-//                    .put("place", 1)
-//                    .put("name", "jackjack")
-//                    .put("score", 125);
-//             jo2 = new JSONObject()
-//                     .put("place", 2)
-//                     .put("name", "NotGoodWord")
-//                     .put("score", 93);
-//             jo3 = new JSONObject()
-//                    .put("place", 3)
-//                    .put("name", "olololololololololololololololololololololololololololololololololololololololololol")
-//                    .put("score", 1123);
-//             jo4 = new JSONObject()
-//                    .put("place", 4)
-//                    .put("name", "OneBadWord")
-//                    .put("score", 1244871234);
-//             jo5 = new JSONObject()
-//                    .put("place", 5)
-//                    .put("name", "OneBadWord")
-//                    .put("score", 1244871234);
-//             jo6 = new JSONObject()
-//                    .put("place", 6)
-//                    .put("name", "OneBadWord")
-//                    .put("score", 1244871234);
-//             jo7 = new JSONObject()
-//                    .put("place", 7)
-//                    .put("name", "OneBadWord")
-//                    .put("score", 1244871234);
-//             jo8 = new JSONObject()
-//                    .put("place", 8)
-//                    .put("name", "OneBadWord")
-//                    .put("score", 1244871234);
-//             jo9 = new JSONObject()
-//                    .put("place", 9)
-//                    .put("name", "OneBadWord")
-//                    .put("score", 1244871234);
-//             jo10 = new JSONObject()
-//                    .put("place", 10)
-//                    .put("name", "OneBadWord")
-//                    .put("score", 1244871234);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        jsonArray.put(jo1);
-//        jsonArray.put(jo2);
-//        jsonArray.put(jo3);
-//        jsonArray.put(jo4);
-//        jsonArray.put(jo5);
-//        jsonArray.put(jo6);
-//        jsonArray.put(jo7);
-//        jsonArray.put(jo8);
-//        jsonArray.put(jo9);
-//        jsonArray.put(jo10);
-
-        // Здесь как бы уже работаем с загруженным jsonArray
 
         for (int i = -1; i < jsonArray.length(); i++) {
 

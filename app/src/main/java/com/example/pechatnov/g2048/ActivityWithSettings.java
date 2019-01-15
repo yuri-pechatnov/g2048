@@ -36,8 +36,6 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Здесь нужно получить значение текущих настроек
-
             case R.id.action_settings:
                 // Переход на activity с настройками
                 Intent startSettingsActivityIntent = new Intent(ActivityWithSettings.this, SettingsActivity.class);
@@ -45,16 +43,11 @@ public abstract class ActivityWithSettings extends AppCompatActivity {
                 break;
 
             case R.id.action_rating:
-                Toast.makeText(ActivityWithSettings.this, R.string.action_rating, Toast.LENGTH_SHORT).show();
                 // Переход на activity с рейтингом
                 Intent startRatingActivityIntent = new Intent(ActivityWithSettings.this, RatingActivity.class);
                 startRatingActivityIntent.putExtra("score", -1);
                 startActivity(startRatingActivityIntent);
                 break;
-//            case R.id.actionExit:
-//                Toast.makeText(SingleFragmentActivity.this, R.string.menuExit, Toast.LENGTH_SHORT).show();
-//                finish();
-//                break;
             default:
                 break;
 
