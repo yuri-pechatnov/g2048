@@ -82,7 +82,9 @@ public class SettingsKeeper {
     }
 
     public String getBlockStrategyStr() {
-        return mGson.fromJson(sharedPreferences.getString(BLOCK_STRATEGY_KEY, String.valueOf(R.string.block_random_eng)), BLOCK_STRATEGY_TYPE);
+        String strategy = sharedPreferences.getString(BLOCK_STRATEGY_KEY, "\"" + context.getString(R.string.block_random_eng) + "\"");
+        Log.e("place", "getBlockStrategyStr " + strategy);
+        return mGson.fromJson(strategy, BLOCK_STRATEGY_TYPE);
     }
     @SuppressLint("Assert")
     public void setBlockStrategy(String blockStrategy) {

@@ -133,9 +133,9 @@ public class SettingsActivity extends ActivityWithSettings {
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
         settingsKeeper = new SettingsKeeper(this);
-        settingsKeeper.setFieldSize(sharedPreferences.getString(PREF_SIZE, "4"));
-        settingsKeeper.setSwipeSpeed(sharedPreferences.getString(PREF_SPEED, "500"));
-        settingsKeeper.setBlockStrategy(sharedPreferences.getString(PREF_BLOCK, String.valueOf(R.string.block_random_eng)));
+//        settingsKeeper.setFieldSize(sharedPreferences.getString(PREF_SIZE, "4"));
+//        settingsKeeper.setSwipeSpeed(sharedPreferences.getString(PREF_SPEED, "500"));
+//        settingsKeeper.setBlockStrategy(sharedPreferences.getString(PREF_BLOCK, String.valueOf(R.string.block_random_eng)));
 
         fieldSizeBar.setProgress(Integer.parseInt(settingsKeeper.getFieldSize()));
         fieldSizeValue.setText(settingsKeeper.getFieldSize());

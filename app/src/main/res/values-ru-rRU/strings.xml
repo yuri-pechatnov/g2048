@@ -12,7 +12,7 @@
     <string name="score_text">Очки:</string>
     <string name="enter_nickname">Введите имя:</string>
     <string name="submit">Отправить</string>
-    <string name="restart_button">Сброс</string>
+    <string name="restart_button">С начала</string>
     <string name="undo_button">Отмена</string>
     <string name="place_in_rating">Место</string>
     <string name="name_in_rating">Имя</string>
