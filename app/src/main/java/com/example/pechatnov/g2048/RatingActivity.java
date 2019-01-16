@@ -42,7 +42,7 @@ public class RatingActivity extends ActivityWithSettings {
         connection.setRequestProperty("User-Agent", "Mozilla/5.0" );
         connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         connection.setRequestProperty("Content-Type", "application/json");
-        connection.setConnectTimeout(200);
+        connection.setConnectTimeout(500);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;
