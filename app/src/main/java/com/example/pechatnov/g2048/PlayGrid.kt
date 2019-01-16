@@ -82,6 +82,8 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
             currentState.rotateClockwise()
         }
 
+        val oldState = State(currentState)
+
         var currentNo = if (!currentState.values.isEmpty()) {
             (currentState.values.maxBy { it.key })!!.key + 1
         } else {
@@ -135,44 +137,54 @@ class PlayGrid(width: Int, height: Int, blockStrategy: SettingsKeeper.BlockStrat
             }
         }
 
-        val candidates = ArrayList<Pair<Int, Int>>();
-        when (this.blockStrategy) {
-            SettingsKeeper.BlockStrategy.CENTER -> {
-                val hw = (currentState.width - 1) / 2
-                val hh = (currentState.height - 1) / 2
-                val hw1 = currentState.width / 2
-                val hh1 = currentState.height / 2
-                candidates.add(Pair(hw, hh))
-                candidates.add(Pair(hw1, hh))
-                candidates.add(Pair(hw, hh1))
-                candidates.add(Pair(hw1, hh1))
-            }
-            SettingsKeeper.BlockStrategy.RANDOM -> {
-                for (i in 0 until currentState.width) {
-                    for (j in 0 until currentState.height) {
-                        candidates.add(Pair(i, j))
-                    }
+        var doAddBlock = currentState.values.isEmpty() // if there is no blocks we must add one
+        for (i in 0 until currentState.width) {
+            for (j in 0 until currentState.height) {
+                if (oldState.matrix[i][j] != currentState.matrix[i][j]) {
+                    doAddBlock = true
                 }
             }
-            SettingsKeeper.BlockStrategy.RANDOM_CORNER -> {
-                candidates.addAll(arrayOf(
-                        Pair(0, 0),
-                        Pair(0, currentState.height - 1),
-                        Pair(currentState.width - 1, 0),
-                        Pair(currentState.width - 1, currentState.height - 1)
-                ))
-            }
         }
-        val emptyCandidates = candidates.filter { currentState.matrix[it.first][it.second] == 0 }
+        if (doAddBlock) {
+            val candidates = ArrayList<Pair<Int, Int>>();
+            when (this.blockStrategy) {
+                SettingsKeeper.BlockStrategy.CENTER -> {
+                    val hw = (currentState.width - 1) / 2
+                    val hh = (currentState.height - 1) / 2
+                    val hw1 = currentState.width / 2
+                    val hh1 = currentState.height / 2
+                    candidates.add(Pair(hw, hh))
+                    candidates.add(Pair(hw1, hh))
+                    candidates.add(Pair(hw, hh1))
+                    candidates.add(Pair(hw1, hh1))
+                }
+                SettingsKeeper.BlockStrategy.RANDOM -> {
+                    for (i in 0 until currentState.width) {
+                        for (j in 0 until currentState.height) {
+                            candidates.add(Pair(i, j))
+                        }
+                    }
+                }
+                SettingsKeeper.BlockStrategy.RANDOM_CORNER -> {
+                    candidates.addAll(arrayOf(
+                            Pair(0, 0),
+                            Pair(0, currentState.height - 1),
+                            Pair(currentState.width - 1, 0),
+                            Pair(currentState.width - 1, currentState.height - 1)
+                    ))
+                }
+            }
+            val emptyCandidates = candidates.filter { currentState.matrix[it.first][it.second] == 0 }
 
-        if (emptyCandidates.isEmpty()) {
-            // do nothing
-        } else {
-            val (i, j) = emptyCandidates[Random().nextInt(emptyCandidates.size)]
-            currentState.matrix[i][j] = currentNo
-            currentState.values[currentNo] = 1
-            toMove[currentNo] = Pair(Pair(i, j), false)
-            currentNo += 1
+            if (emptyCandidates.isEmpty()) {
+                // do nothing
+            } else {
+                val (i, j) = emptyCandidates[Random().nextInt(emptyCandidates.size)]
+                currentState.matrix[i][j] = currentNo
+                currentState.values[currentNo] = 1
+                toMove[currentNo] = Pair(Pair(i, j), false)
+                currentNo += 1
+            }
         }
 
         // rotate back
