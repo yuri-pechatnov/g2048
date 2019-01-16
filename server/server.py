@@ -15,7 +15,7 @@ import json
 
 
 db = MySQLdb.connect("localhost", "u2048", "u2048passord", init_command="use testDB")
-
+db.encoding = "utf-8"
 
 # In[ ]:
 
@@ -47,7 +47,7 @@ def transform_rating(df):
 
 # In[ ]:
 
-
+import logging
 import flask
 
 app = flask.Flask(__name__)
@@ -62,6 +62,7 @@ def rating():
 
 @app.route('/add_user')
 def add_user():
+    user_name = "no name :("
     try:
         user_name = str(flask.request.args['name'])
     except Exception:
@@ -70,8 +71,9 @@ def add_user():
         user_id, new = db2048.add_user(db, name=user_name)
         return json.dumps({"success": True, "user_id": user_id, "new": new}), 200
     except Exception:
+        logging.exception("Can't add user '{}': ".format(user_name))
         return traceback.format_exc(), 500
-    
+
 @app.route('/get_current_version')
 def get_current_version():
     try:
