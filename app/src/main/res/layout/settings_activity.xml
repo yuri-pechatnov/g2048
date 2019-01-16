@@ -30,8 +30,7 @@
     <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/fieldSize"
-        android:min="3"
-        android:max="8"/>
+        android:max="5"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:id="@+id/fieldSizeValue"
@@ -44,8 +43,7 @@
     <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/swipeSpeed"
-        android:min="50"
-        android:max="1000"/>
+        android:max="950"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:id="@+id/swipeSpeedValue"

@@ -31,6 +31,11 @@ public class SettingsActivity extends ActivityWithSettings {
     SeekBar.OnSeekBarChangeListener onFieldSizeBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            progress += 3;
+//            if (progress < 3) {
+//                progress = 3;
+//                setProgress(3);
+//            }
             String progressString = String.valueOf(progress);
 
             fieldSizeValue.setText(progressString);
@@ -55,6 +60,12 @@ public class SettingsActivity extends ActivityWithSettings {
     public SeekBar.OnSeekBarChangeListener onSwipeSpeedChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            progress += 50;
+//
+//            if (progress < 50) {
+//                progress = 50;
+//                setProgress(50);
+//            }
             String progressString = String.valueOf(progress);
 
             swipeSpeedValue.setText(progressString);
@@ -137,9 +148,9 @@ public class SettingsActivity extends ActivityWithSettings {
 //        settingsKeeper.setSwipeSpeed(sharedPreferences.getString(PREF_SPEED, "500"));
 //        settingsKeeper.setBlockStrategy(sharedPreferences.getString(PREF_BLOCK, String.valueOf(R.string.block_random_eng)));
 
-        fieldSizeBar.setProgress(Integer.parseInt(settingsKeeper.getFieldSize()));
+        fieldSizeBar.setProgress(Integer.parseInt(settingsKeeper.getFieldSize()) - 3);
         fieldSizeValue.setText(settingsKeeper.getFieldSize());
-        swipeSpeedBar.setProgress(Integer.parseInt(settingsKeeper.getSwipeSpeed()));
+        swipeSpeedBar.setProgress(Integer.parseInt(settingsKeeper.getSwipeSpeed()) - 50);
         swipeSpeedValue.setText(settingsKeeper.getSwipeSpeed());
 
         String blockStrategy = settingsKeeper.getBlockStrategyStr();
@@ -169,7 +180,7 @@ public class SettingsActivity extends ActivityWithSettings {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Toast.makeText(SettingsActivity.this, "Save instance state", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(SettingsActivity.this, "Save instance state", Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
         outState.putString(SettingsActivity.PREF_SIZE, sharedPreferences.getString(PREF_SIZE, "4"));

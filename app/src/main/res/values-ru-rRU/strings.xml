@@ -23,4 +23,5 @@
     <string name="add_score_cancel">Отмена</string>
     <string name="add_score_add">Да!</string>
     <string name="add_score_msg">Игра окончена!</string>
+    <string name="result_was_added">Ваш результат был внесен в общий рейтинг</string>
 </resources>

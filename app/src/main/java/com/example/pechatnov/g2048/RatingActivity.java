@@ -96,7 +96,7 @@ public class RatingActivity extends ActivityWithSettings {
             if (!success) {
                 throw new AssertionError("success is false");
             }
-            nickname.getText().clear();
+            getIntent().putExtra("score", -2);
             recreate();
         } catch (Exception e) {
             Log.e("requests", "Failed add score :(", e);
@@ -115,14 +115,23 @@ public class RatingActivity extends ActivityWithSettings {
         super.onCreate(savedInstanceState);
 
 
-        if (getScore() == -1) {
+
+        if (getScore() < 0) {
             findViewById(R.id.tv_remember_achievements).setVisibility(View.GONE);
             findViewById(R.id.tv_score).setVisibility(View.GONE);
             findViewById(R.id.enter_layout).setVisibility(View.GONE);
+
+            if (getScore() == -2) {
+                findViewById(R.id.result_was_added).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.result_was_added).setVisibility(View.GONE);
+            }
         } else {
             findViewById(R.id.tv_remember_achievements).setVisibility(View.VISIBLE);
             findViewById(R.id.tv_score).setVisibility(View.VISIBLE);
             findViewById(R.id.enter_layout).setVisibility(View.VISIBLE);
+
+            findViewById(R.id.result_was_added).setVisibility(View.GONE);
         }
 
 
