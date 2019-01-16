@@ -41,6 +41,18 @@
 
             />
             <Button
+                android:text="@string/score_text"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="8dp"
+                android:id="@+id/scoreViewOld"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_gravity="center_vertical"
+                />
+            <Button
                     android:text="@string/restart_button"
                     android:background="@drawable/button"
                     android:layout_width="match_parent"

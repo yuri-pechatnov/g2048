@@ -213,6 +213,11 @@ class MainActivity : ActivityWithSettings() {
                 recreate()
             }
         }
+
+        if (android.os.Build.VERSION.SDK_INT < 26) {
+            scoreView.visibility = View.GONE
+            scoreViewOld.visibility = View.VISIBLE
+        }
     }
 
     fun doRestart() {
@@ -326,7 +331,9 @@ class MainActivity : ActivityWithSettings() {
 
     fun updateScore() {
         playScore = logicPlayGrid!!.state.score
-        scoreView.text = "${resources.getString(R.string.score_text)} ${playScore}"
+        val text = "${resources.getString(R.string.score_text)} ${playScore}"
+        scoreView.text = text
+        scoreViewOld.text = text
     }
 
     fun onGridSwipe(dir: Int) {
