@@ -227,8 +227,12 @@ class MainActivity : ActivityWithSettings() {
         val playGrid = this.playGrid!!
         val cellView = TextView(this)
         cellView.text = PlayGrid.valueToCost(value).toString()
-        cellView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
-        cellView.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+        if (android.os.Build.VERSION.SDK_INT >= 26) {
+            cellView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
+        }
+        if (android.os.Build.VERSION.SDK_INT >= 17) {
+            cellView.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+        }
         cellView.gravity = TextView.TEXT_ALIGNMENT_CENTER
         cellView.gravity = Gravity.CENTER
         cellView.typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
