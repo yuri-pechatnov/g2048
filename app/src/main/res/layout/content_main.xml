@@ -29,7 +29,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/include" android:layout_marginBottom="8dp"
         >
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                     android:text="@string/score_text"
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"

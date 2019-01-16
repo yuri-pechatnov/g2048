@@ -180,7 +180,7 @@ public class SettingsActivity extends ActivityWithSettings {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Toast.makeText(SettingsActivity.this, "Save instance state", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(SettingsActivity.this, "Save instance state", Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
         outState.putString(SettingsActivity.PREF_SIZE, sharedPreferences.getString(PREF_SIZE, "4"));

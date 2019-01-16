@@ -16,6 +16,7 @@ import android.util.Log
 import android.graphics.Rect
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.view.*
 
@@ -28,7 +29,11 @@ import android.os.StrictMode
 import android.support.v7.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.support.v7.widget.AppCompatTextView
 import kotlin.math.min
+import android.widget.RelativeLayout
+
+
 
 
 class MainActivity : ActivityWithSettings() {
@@ -223,17 +228,13 @@ class MainActivity : ActivityWithSettings() {
     }
 
 
+    @SuppressLint("RestrictedApi")
     fun createCell(value: Int, parent: View? = null): View {
         val playGrid = this.playGrid!!
-        val cellView = TextView(this)
+        val cellView = AppCompatTextView(this)
         cellView.text = PlayGrid.valueToCost(value).toString()
-        if (android.os.Build.VERSION.SDK_INT >= 26) {
-            cellView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
-        }
-        if (android.os.Build.VERSION.SDK_INT >= 17) {
-            cellView.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-        }
-        cellView.gravity = TextView.TEXT_ALIGNMENT_CENTER
+        cellView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
+        
         cellView.gravity = Gravity.CENTER
         cellView.typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
 
