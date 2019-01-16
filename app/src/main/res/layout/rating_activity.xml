@@ -68,7 +68,7 @@
         android:text="@string/result_was_added"
         android:id="@+id/result_was_added"
         android:autoSizeTextType="uniform" android:typeface="sans" android:textStyle="bold"
-        android:textSize="30sp"/>
+        android:textSize="23sp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

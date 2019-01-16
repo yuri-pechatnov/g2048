@@ -25,5 +25,5 @@
     <string name="add_score_cancel">Cancel</string>
     <string name="add_score_add">Yes!</string>
     <string name="add_score_msg">Game over!</string>
-    <string name="result_was_added">Your result was added to overall rating</string>
+    <string name="result_was_added">Your result was added to the overall rating</string>
 </resources>
