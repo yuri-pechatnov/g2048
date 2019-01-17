@@ -25,7 +25,7 @@ def create_all_tables(db):
         c.execute('''
         CREATE TABLE users (
             USER_ID INT PRIMARY KEY,
-            NAME CHAR(255)
+            NAME VARCHAR(2550)
         );
 
         CREATE TABLE versions (
@@ -72,6 +72,7 @@ def get_user(db, name):
         return users[0][0]
     
 def add_user(db, name):
+    name = db.escape_string(name).decode("utf-8")
     with db.cursor() as c:
         c.execute("""
 SELECT USER_ID FROM users WHERE NAME = '{user_name}' LIMIT 1;
@@ -84,7 +85,7 @@ SELECT USER_ID FROM users WHERE NAME = '{user_name}' LIMIT 1;
 START TRANSACTION;
 SET @NEW_USER_ID = (SELECT MAX(USER_ID) FROM users) + 1;
 SET @NEW_USER_ID = COALESCE(@NEW_USER_ID, 0);
-INSERT INTO users VALUES (@NEW_USER_ID, "{user_name}");
+INSERT INTO users VALUES (@NEW_USER_ID, '{user_name}');
 INSERT INTO versions VALUES (@NEW_USER_ID, 0);
 COMMIT;
 SELECT * FROM users WHERE USER_ID = @NEW_USER_ID;
