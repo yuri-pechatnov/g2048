@@ -66,7 +66,7 @@ public class SettingsKeeper {
     }
 
     public String getSwipeSpeed() {
-        return mGson.fromJson(sharedPreferences.getString(SWIPE_SPEED_KEY, "500"), SWIPE_SPEED_TYPE);
+        return mGson.fromJson(sharedPreferences.getString(SWIPE_SPEED_KEY, "150"), SWIPE_SPEED_TYPE);
     }
     public  void setSwipeSpeed(String swipeSpeed) {
         sharedPreferences.edit().putString(SWIPE_SPEED_KEY, mGson.toJson(swipeSpeed, SWIPE_SPEED_TYPE)).apply();

@@ -16,6 +16,7 @@ import android.util.Log
 import android.graphics.Rect
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.view.*
 
@@ -28,7 +29,11 @@ import android.os.StrictMode
 import android.support.v7.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.support.v7.widget.AppCompatTextView
 import kotlin.math.min
+import android.widget.RelativeLayout
+
+
 
 
 class MainActivity : ActivityWithSettings() {
@@ -208,6 +213,11 @@ class MainActivity : ActivityWithSettings() {
                 recreate()
             }
         }
+
+        if (android.os.Build.VERSION.SDK_INT < 26) {
+            scoreView.visibility = View.GONE
+            scoreViewOld.visibility = View.VISIBLE
+        }
     }
 
     fun doRestart() {
@@ -223,13 +233,13 @@ class MainActivity : ActivityWithSettings() {
     }
 
 
+    @SuppressLint("RestrictedApi")
     fun createCell(value: Int, parent: View? = null): View {
         val playGrid = this.playGrid!!
-        val cellView = TextView(this)
+        val cellView = AppCompatTextView(this)
         cellView.text = PlayGrid.valueToCost(value).toString()
         cellView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM)
-        cellView.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-        cellView.gravity = TextView.TEXT_ALIGNMENT_CENTER
+        
         cellView.gravity = Gravity.CENTER
         cellView.typeface = Typeface.create("sans-serif-medium", Typeface.BOLD)
 
@@ -321,7 +331,9 @@ class MainActivity : ActivityWithSettings() {
 
     fun updateScore() {
         playScore = logicPlayGrid!!.state.score
-        scoreView.text = "${resources.getString(R.string.score_text)} ${playScore}"
+        val text = "${resources.getString(R.string.score_text)} ${playScore}"
+        scoreView.text = text
+        scoreViewOld.text = text
     }
 
     fun onGridSwipe(dir: Int) {
